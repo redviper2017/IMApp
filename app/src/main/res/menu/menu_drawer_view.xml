@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single"
+        android:id="@+id/nav_menu_group1">
+        <item
+            android:id="@+id/nav_contacts"
+            android:icon="@drawable/ic_contact_24dp"
+            android:title="@string/contacts" />
+    </group>
+    <group
+        android:id="@+id/nav_menu_group2">
+        <item
+            android:id="@+id/nav_myFiles"
+            android:icon="@drawable/ic_my_files_24dp"
+            android:title="@string/my_files" />
+        <item
+            android:id="@+id/nav_sharedFiles"
+            android:icon="@drawable/ic_shared_files_24dp"
+            android:title="@string/shared_files" />
+    </group>
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/nav_menu_group3">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_24dp"
+            android:title="@string/settings" />
+    </group>
+</menu>

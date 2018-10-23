@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        style="@style/HeaderBar"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:tabGravity="center"
+            app:tabIndicatorGravity="bottom"
+            app:tabMode="fixed"
+            app:tabIndicatorColor="@android:color/white">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_calls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chats"/>
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_chats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calls"/>
+
+        </android.support.design.widget.TabLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.AppBarLayout>

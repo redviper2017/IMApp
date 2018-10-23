@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#212E3E</color>
+    <color name="colorPrimaryDark">#1A2430</color>
+    <color name="colorAccent">#FF1744</color>
+    <color name="colorPrimaryText">#81939F</color>
+    <color name="colorMenuIcons">#7D8E98</color>
+    <color name="colorNavigationDrawer">#1D2733</color>
+    <color name="colorNavMenuText">#FFFEFF</color>
+    <color name="colorNavHeader">#1A222D</color>
+    <color name="sentChat">#98877d</color>
+</resources>
