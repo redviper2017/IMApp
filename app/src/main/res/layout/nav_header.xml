@@ -24,7 +24,7 @@
         android:layout_below="@id/img_nav_header_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Colonel Abu Taher"
+        android:text="Officer Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_marginBottom="@dimen/_5sdp"
         android:layout_centerVertical="true"/>
@@ -34,7 +34,7 @@
         android:layout_below="@id/txt_nav_header_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="+880 17 173 31433"
+        android:text="+880171000000"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </RelativeLayout>

@@ -109,7 +109,6 @@ public class ContactFragment extends Fragment implements SearchView.OnQueryTextL
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.NUMBER,
                 ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER,
-                ContactsContract.CommonDataKinds.Phone.PHOTO_URI,
                 //plus any other properties you wish to query
         };
 
@@ -122,8 +121,6 @@ public class ContactFragment extends Fragment implements SearchView.OnQueryTextL
 
         if (cursor != null) {
             try {
-                Bitmap bp = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.user_no_photo);
                 HashSet<String> normalizedNumbersAlreadyFound = new HashSet<>();
                 int indexOfNormalizedNumber = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER);
                 int indexOfDisplayName = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
@@ -134,30 +131,16 @@ public class ContactFragment extends Fragment implements SearchView.OnQueryTextL
                     if (normalizedNumbersAlreadyFound.add(normalizedNumber)) {
                         String displayName = cursor.getString(indexOfDisplayName);
                         String displayNumber = cursor.getString(indexOfDisplayNumber);
-                        String imageUri = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
-                        if (imageUri != null) {
-                            try {
-                                bp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(imageUri));
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
                         ContactModel contactModel = new ContactModel();
-
-
-
                         contactModel.setName(displayName);
                         contactModel.setNumber(displayNumber);
-                        contactModel.setImageUri(bp);
                         contactModelArrayList.add(contactModel);
                     }
                 }
             } finally {
                 cursor.close();
             }
-            loadEmployees();
+
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -264,7 +247,7 @@ public class ContactFragment extends Fragment implements SearchView.OnQueryTextL
     public void onStart() {
         super.onStart();
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-
+        loadEmployees();
     }
 
 

@@ -5,8 +5,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorPrimaryDark"
     android:paddingTop="8dp">
+
+    <RelativeLayout
+        android:id="@+id/rel_layout_receivedMessageList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/image_message_profile"
+        android:layout_below="@id/image_message_profile"
+        android:checked="true"
+        android:buttonTint="@color/colorAccent"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_message_profile"
@@ -50,5 +64,7 @@
         android:layout_alignRight="@id/text_message_body"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_below="@id/text_message_body"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

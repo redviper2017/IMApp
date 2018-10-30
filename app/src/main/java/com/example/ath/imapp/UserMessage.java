@@ -38,7 +38,7 @@ public class UserMessage {
         this.senderImage = senderImage;
     }
 
-    public String getTime() {
+    public String  getTime() {
         return time;
     }
 

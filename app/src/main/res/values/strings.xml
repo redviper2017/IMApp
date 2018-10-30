@@ -16,4 +16,7 @@
     <string name="search_hint">Search</string>
     <string name="username">Username</string>
     <string name="mobile">mobile</string>
+    <string name="_0_item_selected">0 item selected</string>
+    <string name="refresh">Refresh</string>
+    <string name="search">Search</string>
 </resources>

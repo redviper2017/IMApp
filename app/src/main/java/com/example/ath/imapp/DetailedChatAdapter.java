@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -31,11 +34,13 @@ public class DetailedChatAdapter extends RecyclerView.Adapter {
 
     private String senderName;
 
-    public DetailedChatAdapter(Context mContext, ArrayList<UserMessage> mMessageList, String senderName) {
-        this.mContext = mContext;
+    MessageListActivity messageListActivity;
+
+    public DetailedChatAdapter(Context context, ArrayList<UserMessage> mMessageList, String senderName) {
+        this.mContext = context;
         this.mMessageList = mMessageList;
         this.senderName = senderName;
-        Log.d(TAG,"message list size in DetailedChatAdapter: "+mMessageList.size());
+        messageListActivity = (MessageListActivity) context;
     }
 
     @Override
@@ -65,11 +70,11 @@ public class DetailedChatAdapter extends RecyclerView.Adapter {
         if (viewType==VIEW_TYPE_MESSAGE_SENT){
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_message_sent, parent, false);
-            return new SentMessageHolder(view);
+            return new SentMessageHolder(view,messageListActivity);
         }else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_message_received, parent, false);
-            return new ReceivedMessageHolder(view);
+            return new ReceivedMessageHolder(view,messageListActivity);
         }
 
         return null;
@@ -91,39 +96,67 @@ public class DetailedChatAdapter extends RecyclerView.Adapter {
     }
 
 
-    private class SentMessageHolder extends RecyclerView.ViewHolder{
+    private class SentMessageHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView messageText, timeText;
+        CheckBox checkBox;
+        MessageListActivity messageListActivity;
+        RelativeLayout relativeLayout;
 
-        SentMessageHolder(@NonNull View itemView) {
+
+        SentMessageHolder(@NonNull View itemView, MessageListActivity messageListActivity) {
             super(itemView);
-
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
+            checkBox = itemView.findViewById(R.id.checkbox);
+            this.messageListActivity = messageListActivity;
+            relativeLayout = itemView.findViewById(R.id.rel_layout_sentMessageList);
+            relativeLayout.setOnLongClickListener(messageListActivity);
+            checkBox.setOnClickListener(this);
+
         }
 
         void bind(UserMessage message){
 
             messageText.setText(message.getMessage());
-
             // Format the stored timestamp into a readable String using method.
             timeText.setText(message.getTime());
+            //check if the activity is is in normal mode or contextual action mode
+            if (!messageListActivity.is_in_action_mode){
+                checkBox.setVisibility(View.GONE);
+            }
+            else {
+                checkBox.setVisibility(View.VISIBLE);
+                checkBox.setChecked(false);
+            }
+        }
 
+        @Override
+        public void onClick(View v) {
+            messageListActivity.prepareSelection(v, getAdapterPosition());
         }
     }
 
-    private class ReceivedMessageHolder extends RecyclerView.ViewHolder{
+    private class ReceivedMessageHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView messageText, timeText, nameText;
         ImageView profileImage;
+        CheckBox checkBox;
+        MessageListActivity messageListActivity;
+        RelativeLayout relativeLayout;
 
-        public ReceivedMessageHolder(@NonNull View itemView) {
+        public ReceivedMessageHolder(@NonNull View itemView, MessageListActivity messageListActivity) {
             super(itemView);
 
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
             nameText = (TextView) itemView.findViewById(R.id.text_message_name);
             profileImage = (ImageView) itemView.findViewById(R.id.image_message_profile);
+            checkBox = itemView.findViewById(R.id.checkbox);
+            this.messageListActivity = messageListActivity;
+            relativeLayout = itemView.findViewById(R.id.rel_layout_receivedMessageList);
+            relativeLayout.setOnLongClickListener(messageListActivity);
+            checkBox.setOnClickListener(this);
         }
 
         void bind(UserMessage message){
@@ -133,6 +166,32 @@ public class DetailedChatAdapter extends RecyclerView.Adapter {
             nameText.setText(message.getSenderName());
             Uri uri = Uri.parse(message.getSenderImage());
             Glide.with(mContext).load(uri).into(profileImage);
+            //check if the activity is is in normal mode or contextual action mode
+            if (!messageListActivity.is_in_action_mode){
+                checkBox.setVisibility(View.GONE);
+            }
+            else {
+                checkBox.setVisibility(View.VISIBLE);
+                checkBox.setChecked(false);
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            messageListActivity.prepareSelection(v, getAdapterPosition());
         }
     }
+
+    void deleteItem(int index) {
+        mMessageList.remove(index);
+        notifyItemRemoved(index);
+    }
+
+    public void updateAdapter(ArrayList<UserMessage> list){
+        for (UserMessage userMessage : list){
+            mMessageList.remove(userMessage);
+        }
+        notifyDataSetChanged();
+    }
+
 }

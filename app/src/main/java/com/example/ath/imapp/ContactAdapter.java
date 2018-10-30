@@ -1,6 +1,7 @@
 package com.example.ath.imapp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,8 +71,12 @@ public class ContactAdapter extends BaseAdapter {
         holder.tvname.setText(contactModelArrayList.get(position).getName());
         holder.tvnumber.setText(contactModelArrayList.get(position).getNumber());
 
-        holder.contactImage.setImageBitmap(contactModelArrayList.get(position).getImageUri());
-
+        Log.d("TAG","image of contact = "+contactModelArrayList.get(position).getImageUri());
+        if (contactModelArrayList.get(position).getImageUri()==null){
+            holder.contactImage.setImageResource(R.drawable.user_no_photo);
+        }else {
+            holder.contactImage.setImageBitmap(contactModelArrayList.get(position).getImageUri());
+        }
         return convertView;
     }
 

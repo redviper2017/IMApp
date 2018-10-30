@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MessageListActivity"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimaryDark">
+
+    <include layout="@layout/toolbar_message_list"
+        android:id="@+id/tool_bar_activity_message_list" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_chatbox"
+        android:layout_below="@id/tool_bar_activity_message_list"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reyclerview_message_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:layout_marginTop="@dimen/_10sdp">
     </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.NestedScrollView>
+
 
     <!-- A horizontal line between the chatbox and RecyclerView -->
     <!--<View-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="@dimen/_2sdp"-->
-        <!--android:background="#dfdfdf"-->
+        <!--android:layout_above="@+id/layout_chatbox"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/_1sdp"-->
+        <!--android:background="@color/colorNavMenuText"-->
         <!--android:layout_marginBottom="0dp"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/layout_chatbox"-->
-        <!--app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--app:layout_constraintRight_toRightOf="parent"/>-->
+        <!--/>-->
 
     <LinearLayout
         android:id="@+id/layout_chatbox"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:minHeight="@dimen/_48sdp"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:elevation="@dimen/_10sdp">
 
         <EditText
             android:id="@+id/edittext_chatbox"
@@ -52,7 +64,6 @@
 
         <Button
             android:id="@+id/button_chatbox_send"
-            android:text="Send"
             android:textSize="@dimen/_12sdp"
             android:textColor="@color/colorAccent"
             android:background="?attr/selectableItemBackground"
@@ -66,5 +77,4 @@
             android:layout_marginRight="@dimen/_5sdp"/>
 
     </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

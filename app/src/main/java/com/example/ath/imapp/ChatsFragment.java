@@ -11,13 +11,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ath.imapp.interfaces.GetDataService;
 import com.example.ath.imapp.model.Employee;
@@ -38,7 +41,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChatsFragment extends Fragment {
+public class ChatsFragment extends Fragment{
 
     int currentUserID =1;
 
@@ -59,8 +62,6 @@ public class ChatsFragment extends Fragment {
     private ChatAdapter chatAdapter;
     private Context context;
 
-
-
     public ChatsFragment() {
         // Required empty public constructor
     }
@@ -71,9 +72,7 @@ public class ChatsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
 
 
-
         employeeList = new ArrayList<>();
-
 
         allSentChatMessageListForUser = new ArrayList<>();
         allReceivedChatMessageListForUser = new ArrayList<>();
@@ -143,7 +142,7 @@ public class ChatsFragment extends Fragment {
                                             Long.parseLong(stringTimestampToInt(allSentChatMessageListForUser.get(j).getTimestamp()))){
                                         allSentChatMessageListForUser.remove(i);
                                     }else if (Long.parseLong(stringTimestampToInt(allSentChatMessageListForUser.get(i).getTimestamp()))
-                                            >
+                                            >=
                                             Long.parseLong(stringTimestampToInt(allSentChatMessageListForUser.get(j).getTimestamp()))){
                                         allSentChatMessageListForUser.remove(j);
                                     }
@@ -185,6 +184,7 @@ public class ChatsFragment extends Fragment {
                 Log.d(TAG,"final size of allReceivedChatMessageListForUser = "+allReceivedChatMessageListForUser.size());
 
                 chatAdapter = new ChatAdapter(context,allReceivedChatMessageListForUser,employeeList,currentUserName,currentUserID);
+                chatAdapter.notifyDataSetChanged();
                 listView.setAdapter(chatAdapter);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -220,19 +220,41 @@ public class ChatsFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
+
+                listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        registerForContextMenu(listView);
+                        return false;
+                    }
+                });
             }
         },2000);
-
 
         // Inflate the layout for this fragment
         return view;
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.options,menu);
+//        menu.setHeaderTitle("What do you want to do with this chat?");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId()==R.id.option_delete){
+            Toast.makeText(context,"deleteing...",Toast.LENGTH_LONG).show();
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
     public void loadAllReceivedMessages(){
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
@@ -241,7 +263,7 @@ public class ChatsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Example>> call, Response<List<Example>> response) {
                 List<Example> receivedList = response.body();
-
+                Log.d(TAG,"code got inside loadAllReceivedMessages = "+response.code());
                 allReceivedChatMessageListForUser.addAll(receivedList);
             }
 
@@ -260,7 +282,7 @@ public class ChatsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Example>> call, Response<List<Example>> response) {
                 List<Example> sentList = response.body();
-
+                Log.d(TAG,"code got inside loadAllSentMessages = "+response.code());
                 allSentChatMessageListForUser.addAll(sentList);
             }
 
@@ -385,5 +407,4 @@ public class ChatsFragment extends Fragment {
         }
         return time;
     }
-
 }

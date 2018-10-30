@@ -5,27 +5,31 @@ package com.example.ath.imapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class Messages implements Parcelable{
 
-    private int id, senderId, receiverId;
+    private int id, sender_id, receiver_id;
 
     private String message, timestamp;
 
-    public Messages(int id, int senderId, int receiverId, String message, String timestamp) {
+    public Messages(int sender_id, int receiver_id, String message, String timestamp) {
+        this.sender_id = sender_id;
+        this.receiver_id = receiver_id;
+        this.message = message;
+        this.timestamp = timestamp;
+    }
+
+    public Messages(int id, int sender_id, int receiver_id, String message, String timestamp) {
         this.id = id;
-        this.senderId = senderId;
-        this.receiverId = receiverId;
+        this.sender_id = sender_id;
+        this.receiver_id = receiver_id;
         this.message = message;
         this.timestamp = timestamp;
     }
 
     protected Messages(Parcel in) {
         id = in.readInt();
-        senderId = in.readInt();
-        receiverId = in.readInt();
+        sender_id = in.readInt();
+        receiver_id = in.readInt();
         message = in.readString();
         timestamp = in.readString();
     }
@@ -50,20 +54,20 @@ public class Messages implements Parcelable{
         this.id = id;
     }
 
-    public int getSenderId() {
-        return senderId;
+    public int getSender_id() {
+        return sender_id;
     }
 
-    public void setSenderId(int senderId) {
-        this.senderId = senderId;
+    public void setSender_id(int sender_id) {
+        this.sender_id = sender_id;
     }
 
     public int getReceiverId() {
-        return receiverId;
+        return receiver_id;
     }
 
-    public void setReceiverId(int receiverId) {
-        this.receiverId = receiverId;
+    public void setReceiverId(int receiver_id) {
+        this.receiver_id = receiver_id;
     }
 
     public String getMessage() {
@@ -90,8 +94,8 @@ public class Messages implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
-        dest.writeInt(senderId);
-        dest.writeInt(receiverId);
+        dest.writeInt(sender_id);
+        dest.writeInt(receiver_id);
         dest.writeString(message);
         dest.writeString(timestamp);
     }

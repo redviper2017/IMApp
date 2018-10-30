@@ -6,7 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="8dp"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimaryDark">
+
+    <RelativeLayout
+        android:id="@+id/rel_layout_sentMessageList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_message_profile"
+        android:layout_toLeftOf="@+id/text_message_body"
+        android:checked="true"
+        android:buttonTint="@color/colorAccent"/>
 
     <TextView
         android:id="@+id/text_message_body"
@@ -17,7 +31,7 @@
         android:maxWidth="240dp"
         android:padding="8dp"
         android:textColor="#ffffff"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"/>
 
     <TextView
@@ -31,5 +45,7 @@
         android:layout_height="wrap_content"
         android:textSize="10sp"
         android:layout_marginRight="@dimen/_5sdp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
