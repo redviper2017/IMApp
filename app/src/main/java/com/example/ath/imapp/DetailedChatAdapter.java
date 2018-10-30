@@ -182,11 +182,6 @@ public class DetailedChatAdapter extends RecyclerView.Adapter {
         }
     }
 
-    void deleteItem(int index) {
-        mMessageList.remove(index);
-        notifyItemRemoved(index);
-    }
-
     public void updateAdapter(ArrayList<UserMessage> list){
         for (UserMessage userMessage : list){
             mMessageList.remove(userMessage);

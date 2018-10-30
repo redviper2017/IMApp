@@ -1,5 +1,7 @@
 package com.example.ath.imapp;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ath.imapp.interfaces.GetDataService;
 import com.example.ath.imapp.network.RetrofitClientInstance;
@@ -303,6 +306,10 @@ public class MessageListActivity extends AppCompatActivity implements View.OnLon
         else if (item.getItemId() == android.R.id.home){
             clearActionMode();
             detailedChatAdapter.notifyDataSetChanged();
+        }else if (item.getItemId() == R.id.action_copy){
+            copyToClipBoard(selectionList);
+            Toast.makeText(getApplicationContext(),"Copied to clipboard..",Toast.LENGTH_SHORT).show();
+            clearActionMode();
         }
         return true;
     }
@@ -324,6 +331,18 @@ public class MessageListActivity extends AppCompatActivity implements View.OnLon
             detailedChatAdapter.notifyDataSetChanged();
         }else {
             super.onBackPressed();
+        }
+    }
+
+    public void copyToClipBoard(ArrayList<UserMessage> selectionList){
+        String text = "";
+        for (int i=0; i<selectionList.size(); i++){
+            text = text + "\n" + selectionList.get(i).getMessage();
+        }
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("copiedData", text);
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clip);
         }
     }
 }
