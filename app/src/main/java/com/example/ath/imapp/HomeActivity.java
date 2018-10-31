@@ -1,7 +1,9 @@
 package com.example.ath.imapp;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -29,7 +31,10 @@ import com.bumptech.glide.Glide;
 import com.example.ath.imapp.interfaces.GetDataService;
 import com.example.ath.imapp.model.Employee;
 import com.example.ath.imapp.network.RetrofitClientInstance;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,6 +133,8 @@ public class HomeActivity extends AppCompatActivity {
                         Glide.with(getApplicationContext()).load(uri).into(user_image);
                         Log.d(TAG,"user name = "+name);
                         Log.d(TAG,"user name = "+phone);
+
+                        saveEmployeeList(employeeList,"EmployeeList");
                     }
                 }
             }
@@ -198,6 +205,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
+
                 return true;
             }
         });
@@ -259,4 +267,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void saveEmployeeList(ArrayList<Employee> employeeCredentials, String key){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(employeeCredentials);
+        editor.putString(key, json);
+        editor.apply();     // This line is IMPORTANT !!!
+    }
+
 }

@@ -259,10 +259,10 @@ public class MessageListActivity extends AppCompatActivity implements View.OnLon
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.detailed_message_menu,menu);
 
-        MenuItem search = menu.findItem(R.id.action_search_one2one_chatMessages);
+        final MenuItem search = menu.findItem(R.id.action_search_one2one_chatMessages);
         SearchView searchView = (SearchView) search.getActionView();
         searchView.setQueryHint("Search");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -273,9 +273,36 @@ public class MessageListActivity extends AppCompatActivity implements View.OnLon
 
             @Override
             public boolean onQueryTextChange(String s) {
-                return false;
+                s = s.toLowerCase();
+                ArrayList<UserMessage> newList = new ArrayList<>();
+                for (UserMessage userMessage : chatListToDisplay){
+                    String name = userMessage.getMessage().toLowerCase();
+                    if (name.contains(s)){
+                        newList.add(userMessage);
+                    }
+                }
+                detailedChatAdapter.setFilter(newList);
+                return true;
             }
         });
+//        //Detect SearchView icon clicks
+//        searchView.setOnSearchClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setItemsVisibility(menu, search, false);
+//            }
+//        });
+//        // Detect SearchView close
+//        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+//            @Override
+//            public boolean onClose() {
+//                setItemsVisibility(menu, search, true);
+//                toolbar.getMenu().clear();
+//                toolbar.inflateMenu(R.menu.detailed_message_menu);
+//                is_in_action_mode = true;
+//                return false;
+//            }
+//        });
         return true;
     }
 
@@ -359,6 +386,13 @@ public class MessageListActivity extends AppCompatActivity implements View.OnLon
         ClipData clip = ClipData.newPlainText("copiedData", text);
         if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
+        }
+    }
+
+    private void setItemsVisibility(Menu menu, MenuItem exception, boolean visible) {
+        for (int i=0; i<menu.size(); ++i) {
+            MenuItem item = menu.getItem(i);
+            if (item != exception) item.setVisible(visible);
         }
     }
 }

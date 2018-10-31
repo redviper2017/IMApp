@@ -7,8 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:editTextColor">@android:color/white</item>
-        <item name="android:textColorHint">@android:color/white</item>
-        <item name="colorControlNormal">@color/colorNavMenuText</item>
+        <item name="android:textColorHint">@color/colorMenuIcons</item>
+        <item name="colorControlNormal">@color/colorMenuIcons</item>
     </style>
 
     <style name="HeaderBar">

@@ -189,4 +189,10 @@ public class DetailedChatAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void setFilter(ArrayList<UserMessage> newList){
+        mMessageList = new ArrayList<>();
+        mMessageList.addAll(newList);
+        notifyDataSetChanged();
+    }
+
 }

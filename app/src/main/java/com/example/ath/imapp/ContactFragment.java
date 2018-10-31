@@ -35,10 +35,13 @@ import android.widget.Toast;
 import com.example.ath.imapp.interfaces.GetDataService;
 import com.example.ath.imapp.model.Employee;
 import com.example.ath.imapp.network.RetrofitClientInstance;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -248,6 +251,7 @@ public class ContactFragment extends Fragment implements SearchView.OnQueryTextL
         super.onStart();
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         loadEmployees();
+        getEmployeeList("EmployeeList");
     }
 
 
@@ -288,6 +292,14 @@ public class ContactFragment extends Fragment implements SearchView.OnQueryTextL
         }else {
             Toast.makeText(getContext(),"Permission DENIED",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public ArrayList<Employee> getEmployeeList(String key){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Gson gson = new Gson();
+        String json = prefs.getString(key, null);
+        Type type = new TypeToken<ArrayList<ChatModel>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     @Override
